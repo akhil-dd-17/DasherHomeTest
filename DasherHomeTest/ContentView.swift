@@ -8,132 +8,150 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var mapScale: CGFloat = 1.3
+    @State private var mapOffset: CGSize = .zero
+    @GestureState private var gestureOffset: CGSize = .zero
+
     var body: some View {
-        ZStack(alignment: .top) {
-            // Map background
-            Image("MapView 3")
-                .resizable()
-                .ignoresSafeArea()
-
-            VStack(spacing: 0) {
-                // Top Nav
-                HStack {
-                    // Menu Button
-                    IconButton(icon: "menu", isSystem: false, action: {})
-                    Spacer()
-                    HStack(spacing: 8) {
-                        // Notification Button
-                        IconButton(icon: "notifications", hasBadge: false, isSystem: false, action: {})
-                        // Messages Button
-                        IconButton(icon: "chat", isSystem: false, action: {})
+        // Interactive Map Background
+        Image("MapView-Full-2")
+            .resizable()
+            .scaledToFill()
+            .scaleEffect(mapScale)
+            .offset(x: mapOffset.width + gestureOffset.width, y: mapOffset.height + gestureOffset.height)
+            .gesture(
+                DragGesture()
+                    .updating($gestureOffset) { value, state, _ in
+                        state = value.translation
                     }
-                }
-                .overlay(
-                    // Earnings Pill
-                    VStack(alignment: .center, spacing: 4) {
-                        Text("$42.60")
-                            .font(.custom("TTNorms-Bold", size: 18))
-                            .foregroundColor(Color(hex: "#191919"))
-                        Text("This week")
-                            .font(.custom("TTNorms-Medium", size: 14))
-                            .foregroundColor(Color(hex: "#606060"))
+                    .onEnded { value in
+                        mapOffset.width += value.translation.width
+                        mapOffset.height += value.translation.height
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 8)
-                    .background(
-                        ZStack {
-                            Capsule().fill(.thinMaterial)
-                            Capsule().stroke(.white.opacity(0.3), lineWidth: 2)
+            )
+            .ignoresSafeArea()
+            .overlay(
+                // Main UI Content
+                VStack(spacing: 0) {
+                    // Top Nav
+                    HStack {
+                        // Menu Button
+                        IconButton(icon: "menu", isSystem: false, action: {})
+                        Spacer()
+                        HStack(spacing: 8) {
+                            // Notification Button
+                            IconButton(icon: "notifications", hasBadge: false, isSystem: false, action: {})
+                            // Messages Button
+                            IconButton(icon: "chat", isSystem: false, action: {})
                         }
-                        .shadow(color: Color.black.opacity(0.2), radius: 8, y: 2)
+                    }
+                    .overlay(
+                        // Earnings Pill
+                        VStack(alignment: .center, spacing: 4) {
+                            Text("$42.60")
+                                .font(.custom("TTNorms-Bold", size: 18))
+                                .foregroundColor(Color(hex: "#191919"))
+                            Text("This week")
+                                .font(.custom("TTNorms-Medium", size: 14))
+                                .foregroundColor(Color(hex: "#606060"))
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 8)
+                        .background(
+                            ZStack {
+                                Capsule().fill(.ultraThinMaterial)
+                                Capsule().stroke(.white.opacity(0.3), lineWidth: 2)
+                            }
+                            .shadow(color: Color.black.opacity(0.2), radius: 8, y: 2)
+                        )
                     )
-                )
-                .padding(.horizontal, 16)
-                .padding(.top, 8)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
 
-                Spacer()
-
-                // Floating Action Bar
-                HStack {
-                    // TimeModeButton
-                    IconButton(icon: "hourglass-off-line", isSystem: false, action: {})
                     Spacer()
-                    // Safety Button
-                    IconButton(icon: "safety", isSystem: false, action: {})
-                }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 16)
 
-                // Sheet Container
-                VStack(alignment: .leading, spacing: 0) {
-                    // Header
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("IL: River North / Loop")
-                            .font(.custom("TTNorms-Medium", size: 18))
-                            .foregroundColor(Color(hex: "#606060"))
-                        Text("Stay busy with lots of offers")
-                            .font(.custom("TTNorms-Bold", size: 40))
-                            .tracking(-2)
-                            .foregroundColor(Color(hex: "#191919"))
+                    // Floating Action Bar
+                    HStack {
+                        // TimeModeButton
+                        IconButton(icon: "hourglass-off-line", isSystem: false, action: {})
+                        Spacer()
+                        // Safety Button
+                        IconButton(icon: "safety", isSystem: false, action: {})
                     }
                     .padding(.horizontal, 16)
-                    .padding(.top, 16)
-                    // Body
+                    .padding(.bottom, 16)
+
+                    // Sheet Container
                     VStack(alignment: .leading, spacing: 0) {
-                        HStack {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("Avg. offer wait")
-                                    .font(.custom("TTNorms-Medium", size: 18))
-                                    .foregroundColor(Color(hex: "#606060"))
-                                Text("4 min")
-                                    .font(.custom("TTNorms-Medium", size: 20))
-                                    .foregroundColor(Color(hex: "#191919"))
-                            }
-                            Spacer()
-                        }
-                        .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#d6d6d6")))
-                        .padding(.horizontal, 16)
-                    }
-                    .padding(.vertical, 8)
-                    // Footer
-                    HStack(spacing: 8) {
-                        Button(action: {}) {
-                            Text("Dash")
-                                .font(.custom("TTNorms-Bold", size: 24))
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                        }
-                        .background(Capsule().fill(Color(hex: "#eb1700")))
-                        .frame(height: 56)
-                        Button(action: {}) {
-                            Image("schedule")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 24, height: 24)
+                        // Header
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("IL: River North / Loop")
+                                .font(.custom("TTNorms-Medium", size: 18))
+                                .foregroundColor(Color(hex: "#606060"))
+                            Text("Stay busy with lots of offers")
+                                .font(.custom("TTNorms-Bold", size: 40))
+                                .tracking(-2)
                                 .foregroundColor(Color(hex: "#191919"))
                         }
-                        .frame(width: 56, height: 56)
-                        .background(Circle().fill(Color(hex: "#f1f1f1")))
+                        .padding(.horizontal, 16)
+                        .padding(.top, 16)
+                        // Body
+                        VStack(alignment: .leading, spacing: 0) {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Avg. offer wait")
+                                        .font(.custom("TTNorms-Medium", size: 18))
+                                        .foregroundColor(Color(hex: "#606060"))
+                                    Text("4 min")
+                                        .font(.custom("TTNorms-Medium", size: 20))
+                                        .foregroundColor(Color(hex: "#191919"))
+                                }
+                                Spacer()
+                            }
+                            .padding(12)
+                            .background(RoundedRectangle(cornerRadius: 16).stroke(Color(hex: "#d6d6d6")))
+                            .padding(.horizontal, 16)
+                        }
+                        .padding(.vertical, 8)
+                        // Footer
+                        HStack(spacing: 8) {
+                            Button(action: {}) {
+                                Text("Dash")
+                                    .font(.custom("TTNorms-Bold", size: 24))
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 16)
+                            }
+                            .background(Capsule().fill(Color(hex: "#eb1700")))
+                            .frame(height: 56)
+                            Button(action: {}) {
+                                Image("schedule")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 24, height: 24)
+                                    .foregroundColor(Color(hex: "#191919"))
+                            }
+                            .frame(width: 56, height: 56)
+                            .background(Circle().fill(Color(hex: "#f1f1f1")))
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.top, 16)
+                        .padding(.bottom, 32)
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 16)
-                    .padding(.bottom, 32)
+                    .background(
+                        ZStack {
+                            RoundedCorner(radius: 24, corners: [.topLeft, .topRight])
+                                .fill(.ultraThinMaterial)
+                            RoundedCorner(radius: 24, corners: [.topLeft, .topRight])
+                                .stroke(.white.opacity(0.3), lineWidth: 2)
+                        }
+                    )
+                    .compositingGroup()
+                    .shadow(color: Color.black.opacity(0.2), radius: 16, y: 4)
                 }
-                .background(
-                    ZStack {
-                        RoundedCorner(radius: 24, corners: [.topLeft, .topRight])
-                            .fill(.ultraThinMaterial)
-                        RoundedCorner(radius: 24, corners: [.topLeft, .topRight])
-                            .stroke(.white.opacity(0.3), lineWidth: 2)
-                    }
-                )
-                .compositingGroup()
-                .shadow(color: Color.black.opacity(0.2), radius: 16, y: 4)
-            }
-            .ignoresSafeArea(edges: .bottom)
-        }
+                .frame(width: 402)
+                .ignoresSafeArea(edges: .bottom)
+            )
     }
 }
 
@@ -240,7 +258,7 @@ struct IconButton: View {
         Button(action: action) {
             ZStack(alignment: .topTrailing) {
                 ZStack {
-                    Circle().fill(.thinMaterial)
+                    Circle().fill(.ultraThinMaterial)
                     Circle().stroke(.white.opacity(0.3), lineWidth: 2)
                 }
                 .frame(width: 56, height: 56)
