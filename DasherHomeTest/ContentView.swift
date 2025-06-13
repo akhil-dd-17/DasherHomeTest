@@ -19,13 +19,13 @@ struct ContentView: View {
                 // Top Nav
                 HStack {
                     // Menu Button
-                    IconButton(icon: "menu", isSystem: false)
+                    IconButton(icon: "menu", isSystem: false, action: {})
                     Spacer()
                     HStack(spacing: 8) {
                         // Notification Button
-                        IconButton(icon: "notifications", hasBadge: false, isSystem: false)
+                        IconButton(icon: "notifications", hasBadge: false, isSystem: false, action: {})
                         // Messages Button
-                        IconButton(icon: "chat", isSystem: false)
+                        IconButton(icon: "chat", isSystem: false, action: {})
                     }
                 }
                 .overlay(
@@ -40,7 +40,13 @@ struct ContentView: View {
                     }
                     .padding(.horizontal, 24)
                     .padding(.vertical, 8)
-                    .background(Capsule().fill(Color.white).shadow(color: Color.black.opacity(0.2), radius: 8, y: 2))
+                    .background(
+                        ZStack {
+                            Capsule().fill(.thinMaterial)
+                            Capsule().stroke(.white.opacity(0.3), lineWidth: 2)
+                        }
+                        .shadow(color: Color.black.opacity(0.2), radius: 8, y: 2)
+                    )
                 )
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
@@ -50,10 +56,10 @@ struct ContentView: View {
                 // Floating Action Bar
                 HStack {
                     // TimeModeButton
-                    IconButton(icon: "hourglass-off-line", isSystem: false)
+                    IconButton(icon: "hourglass-off-line", isSystem: false, action: {})
                     Spacer()
                     // Safety Button
-                    IconButton(icon: "safety", isSystem: false)
+                    IconButton(icon: "safety", isSystem: false, action: {})
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 16)
@@ -116,8 +122,12 @@ struct ContentView: View {
                     .padding(.bottom, 32)
                 }
                 .background(
-                    RoundedCorner(radius: 24, corners: [.topLeft, .topRight])
-                        .fill(Color.white)
+                    ZStack {
+                        RoundedCorner(radius: 24, corners: [.topLeft, .topRight])
+                            .fill(.ultraThinMaterial)
+                        RoundedCorner(radius: 24, corners: [.topLeft, .topRight])
+                            .stroke(.white.opacity(0.3), lineWidth: 2)
+                    }
                 )
                 .compositingGroup()
                 .shadow(color: Color.black.opacity(0.2), radius: 16, y: 4)
@@ -224,11 +234,15 @@ struct IconButton: View {
     let icon: String
     var hasBadge: Bool = false
     var isSystem: Bool = true
+    let action: () -> Void
     
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            Circle()
-                .fill(Color.white)
+        Button(action: action) {
+            ZStack(alignment: .topTrailing) {
+                ZStack {
+                    Circle().fill(.thinMaterial)
+                    Circle().stroke(.white.opacity(0.3), lineWidth: 2)
+                }
                 .frame(width: 56, height: 56)
                 .shadow(color: Color.black.opacity(0.2), radius: 8, y: 2)
                 .overlay(
@@ -248,12 +262,13 @@ struct IconButton: View {
                         }
                     }
                 )
-            if hasBadge {
-                Circle()
-                    .fill(Color(hex: "#EB1700"))
-                    .frame(width: 12, height: 12)
-                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                    .offset(x: 12, y: -6)
+                if hasBadge {
+                    Circle()
+                        .fill(Color(hex: "#EB1700"))
+                        .frame(width: 12, height: 12)
+                        .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                        .offset(x: 12, y: -6)
+                }
             }
         }
     }
