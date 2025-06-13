@@ -29,9 +29,22 @@
 		0A0CE71B2DFBCF5D00550F55 /* DasherHomeTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DasherHomeTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0A0CE72F2DFBEA7A00550F55 /* Exceptions for "DasherHomeTest" folder in "DasherHomeTest" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0A0CE7032DFBCF5C00550F55 /* DasherHomeTest */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0A0CE7062DFBCF5C00550F55 /* DasherHomeTest */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0A0CE72F2DFBEA7A00550F55 /* Exceptions for "DasherHomeTest" folder in "DasherHomeTest" target */,
+			);
 			path = DasherHomeTest;
 			sourceTree = "<group>";
 		};
@@ -400,6 +413,7 @@
 				DEVELOPMENT_TEAM = VJ6T7FHHKM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DasherHomeTest/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -428,6 +442,7 @@
 				DEVELOPMENT_TEAM = VJ6T7FHHKM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DasherHomeTest/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
